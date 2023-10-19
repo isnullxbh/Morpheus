@@ -31,7 +31,7 @@ AlignEscapedNewlines: DontAlign
 AlignOperands: AlignAfterOperator
 AlignTrailingComments:
   Kind: Always
-  OverEmptyLines: false
+  OverEmptyLines: 1
 AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: Never
