@@ -1,0 +1,13 @@
+---
+Checks: 'cert-*,clang-analyzer-*,cppcoreguidelines-*,performance-*,portability-*,readability-*,clang-diagnostic-*'
+WarningsAsErrors: ''
+HeaderFileExtensions: [h, hpp, cppm]
+ImplementationFileExtensions: [c, cpp, cppm]
+HeaderFilterRegex: ''
+FormatStyle: none
+User: Oleg E. Vorobiov
+CheckOptions:
+  readability-identifier-naming.ClassCase: CamelCase
+  cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor: true
+SystemHeaders: false
+...
