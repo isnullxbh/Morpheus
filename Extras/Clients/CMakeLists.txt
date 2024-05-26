@@ -1,0 +1,3 @@
+if(MORPHEUS_WITH_POSTGRESQL_CLIENT OR MORPHEUS_BUILD_EXAMPLES)
+    add_subdirectory(PostgreSql)
+endif()
