@@ -14,4 +14,5 @@ target_sources(Morpheus.Examples.ClientLevelApi
         main.cpp)
 
 target_link_libraries(Morpheus.Examples.ClientLevelApi
-    Morpheus::Clients::PostgreSql)
+    Morpheus::Clients::PostgreSql
+    Morpheus::Clients::SQLite)

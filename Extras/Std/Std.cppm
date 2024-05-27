@@ -5,5 +5,8 @@
  */
 
 export module Std;
+export import Std.Def;
 export import Std.Memory;
+export import Std.Meta;
 export import Std.Utility;
+export import Std.Strings;
