@@ -18,5 +18,6 @@ using ::std::expected;
 using ::std::unexpected;
 using ::std::move;
 using ::std::forward;
+using ::std::exchange;
 
 } // namespace std

@@ -13,11 +13,13 @@ target_sources(Std
     PUBLIC
         FILE_SET std TYPE CXX_MODULES
             FILES
+                ${CMAKE_CURRENT_SOURCE_DIR}/Array.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/Def.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/Memory.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/Meta.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/Std.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/Strings.cppm
-                ${CMAKE_CURRENT_SOURCE_DIR}/Utility.cppm)
+                ${CMAKE_CURRENT_SOURCE_DIR}/Utility.cppm
+                ${CMAKE_CURRENT_SOURCE_DIR}/Vector.cppm)
 
 target_link_libraries(Std)
