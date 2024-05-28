@@ -13,6 +13,7 @@ An object-relational mapping tool for the C++ programming language
 - unixodbc (for generic [ODBC client](Extras/Clients/Odbc))
 - libsqlite3 (for [SQLite3 client](Extras/Clients/SQLite))
 - libpq (for [PostgreSql client](Extras/Clients/PostgreSql))
+- mysqlclient (for [MySQL client](Extras/Clients/MySql))
 
 ## Build
 
@@ -31,6 +32,7 @@ cmake --build build/debug
 | MORPHEUS_WITH_POSTGRESQL_CLIENT | Creates a build target for the PostgreSql client |   OFF   | 0.1.0 |
 | MORPHEUS_WITH_SQLITE_CLIENT     | Creates a build target for the SQLite3 client    |   OFF   | 0.1.0 |
 | MORPHEUS_WITH_ODBC_CLIENT       | Creates a build target for generic ODBC client   |   OFF   | 0.1.0 |
+| MORPHEUS_WITH_MYSQL_CLIENT      | Creates a build target for the MySQL client      |   OFF   | 0.1.0 |
 
 ## Third-party components
 

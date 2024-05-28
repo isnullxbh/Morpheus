@@ -1,3 +1,7 @@
+if(MORPHEUS_WITH_MYSQL_CLIENT OR MORPHEUS_BUILD_EXAMPLES)
+    add_subdirectory(MySql)
+endif()
+
 if(MORPHEUS_WITH_ODBC_CLIENT OR MORPHEUS_BUILD_EXAMPLES)
     add_subdirectory(Odbc)
 endif()

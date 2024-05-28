@@ -16,4 +16,5 @@ target_sources(Morpheus.Examples.ClientLevelApi
 target_link_libraries(Morpheus.Examples.ClientLevelApi
     Morpheus::Clients::PostgreSql
     Morpheus::Clients::SQLite
-    Morpheus::Clients::Odbc)
+    Morpheus::Clients::Odbc
+    Morpheus::Clients::MySql)

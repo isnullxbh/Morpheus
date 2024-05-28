@@ -9,6 +9,7 @@
 import Morpheus.PostgreSql.Client;
 import Morpheus.SQLite.Client;
 import Morpheus.Odbc.Client;
+import Morpheus.MySql;
 
 auto test(Morpheus::Sql::Client& client, std::string_view connection_str) -> void;
 
@@ -35,6 +36,11 @@ int main()
             auto client = std::move(create_client).value();
             test(client, "Driver={PostgreSqlOdbc};Database=testdb;Port=5432;");
         }
+    }
+
+    {
+        Morpheus::MySql::Client client {};
+        test(client, "mysql://192.168.1.54:3306/testdb");
     }
 
     return 0;
