@@ -6,6 +6,7 @@
 
 export module Morpheus.Odbc.ResultSet;
 
+import Std.Utility;
 import Morpheus.Sql.ResultSet;
 import Morpheus.Odbc.Cli;
 
@@ -17,6 +18,12 @@ export class ResultSet : public Sql::ResultSet
 public:
     explicit ResultSet(Cli::Handle handle)
         : _handle(handle)
+    {}
+
+    ResultSet(const ResultSet&) = delete;
+
+    ResultSet(ResultSet&& rhs) noexcept
+        : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
     ~ResultSet() override

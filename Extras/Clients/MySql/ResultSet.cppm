@@ -7,6 +7,8 @@
 export module Morpheus.MySql.ResultSet;
 
 export import Morpheus.Sql.ResultSet;
+
+import Std.Utility;
 import Morpheus.MySql.Cli;
 
 namespace Morpheus::MySql
@@ -17,6 +19,12 @@ export class ResultSet : public Sql::ResultSet
 public:
     explicit ResultSet(Cli::ResultHandle handle)
         : _handle(handle)
+    {}
+
+    ResultSet(const ResultSet&) = delete;
+
+    ResultSet(ResultSet&& rhs) noexcept
+        : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
     ~ResultSet() override

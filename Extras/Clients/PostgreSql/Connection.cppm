@@ -6,18 +6,20 @@
 
 export module Morpheus.PostgreSql.Connection;
 
-import Morpheus.Sql.Connection;
+export import Morpheus.Sql.Connection;
+export import Morpheus.PostgreSql.ResultSet;
 
 import Std.Utility;
 import Morpheus.PostgreSql.Pq;
-export import Morpheus.PostgreSql.ResultSet;
 
 namespace Morpheus::PostgreSql
 {
 
-export class Connection : public Sql::Connection
+export class Connection
 {
 public:
+    using ResultSet = PostgreSql::ResultSet;
+
     explicit Connection(Pq::pg_conn* handle)
         : _handle(handle)
     {}
@@ -28,7 +30,7 @@ public:
         : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
-    ~Connection() override
+    ~Connection()
     {
         if (_handle)
         {
@@ -40,7 +42,7 @@ public:
     auto operator=(const Connection&) -> Connection& = delete;
     auto operator=(Connection&&) -> Connection& = delete;
 
-    auto execute(std::string_view query) -> std::expected<std::shared_ptr<Sql::ResultSet>, Sql::Error> override
+    auto execute(std::string_view query) -> std::expected<ResultSet, Sql::Error>
     {
         const auto handle = Pq::PQexec(_handle, query.data());
         const auto status = Pq::PQresultStatus(handle);
@@ -53,11 +55,13 @@ public:
             return std::unexpected<Sql::Error> { std::move(message) };
         }
 
-        return std::make_shared<ResultSet>(handle);
+        return ResultSet { handle };
     }
 
 private:
     Pq::pg_conn* _handle;
 };
+
+static_assert(Sql::Connection<Connection>);
 
 } // namespace Morpheus::PostgreSql

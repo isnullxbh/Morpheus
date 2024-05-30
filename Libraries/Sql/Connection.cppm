@@ -6,21 +6,20 @@
 
 export module Morpheus.Sql.Connection;
 
-export import Std.Memory;
 export import Std.Strings;
 export import Std.Utility;
-
 export import Morpheus.Sql.Error;
-export import Morpheus.Sql.ResultSet;
+
+import Std.Concepts;
 
 namespace Morpheus::Sql
 {
 
-export class Connection
+export template<typename T>
+concept Connection = requires(T& connection, std::string_view query)
 {
-public:
-    virtual ~Connection() = default;
-    virtual auto execute(std::string_view query) -> std::expected<std::shared_ptr<ResultSet>, Error> = 0;
+    typename T::ResultSet;
+    { connection.execute(query) } -> std::same_as<std::expected<typename T::ResultSet, Error>>;
 };
 
 } // namespace Morpheus::Sql

@@ -6,6 +6,7 @@
 
 export module Morpheus.SQLite.ResultSet;
 
+import Std.Utility;
 export import Morpheus.Sql.ResultSet;
 import Morpheus.SQLite.Cli;
 
@@ -17,6 +18,12 @@ export class ResultSet : public Sql::ResultSet
 public:
     explicit ResultSet(Cli::sqlite3_stmt* handle)
         : _handle(handle)
+    {}
+
+    ResultSet(const ResultSet&) = delete;
+
+    ResultSet(ResultSet&& rhs) noexcept
+        : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
     ~ResultSet() override

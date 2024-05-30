@@ -8,15 +8,18 @@ export module Morpheus.SQLite.Connection;
 
 export import Morpheus.Sql.Connection;
 export import Morpheus.SQLite.ResultSet;
+
 import Std.Utility;
 import Morpheus.SQLite.Cli;
 
 namespace Morpheus::SQLite
 {
 
-export class Connection : public Sql::Connection
+export class Connection
 {
 public:
+    using ResultSet = SQLite::ResultSet;
+
     explicit Connection(Cli::sqlite3* handle)
         : _handle(handle)
     {}
@@ -27,7 +30,7 @@ public:
         : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
-    ~Connection() override
+    ~Connection()
     {
         if (_handle != nullptr)
         {
@@ -36,7 +39,7 @@ public:
         }
     }
 
-    auto execute(std::string_view query) -> std::expected<std::shared_ptr<Sql::ResultSet>, Sql::Error> override
+    auto execute(std::string_view query) -> std::expected<ResultSet, Sql::Error>
     {
         Cli::sqlite3_stmt* handle {};
 
@@ -50,7 +53,7 @@ public:
             return std::unexpected<Sql::Error> { std::move(message) };
         }
 
-        return std::make_shared<ResultSet>(handle);
+        return ResultSet { handle };
     }
 
 private:

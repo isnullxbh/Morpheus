@@ -7,17 +7,19 @@
 export module Morpheus.MySql.Connection;
 
 export import Morpheus.Sql.Connection;
+export import Morpheus.MySql.ResultSet;
 
 import Std.Utility;
 import Morpheus.MySql.Cli;
-import Morpheus.MySql.ResultSet;
 
 namespace Morpheus::MySql
 {
 
-export class Connection : public Sql::Connection
+export class Connection
 {
 public:
+    using ResultSet = MySql::ResultSet;
+
     explicit Connection(Cli::Handle handle) noexcept
         : _handle(handle)
     {}
@@ -28,7 +30,7 @@ public:
         : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
-    ~Connection() override
+    ~Connection()
     {
         if (_handle != nullptr)
         {
@@ -37,7 +39,7 @@ public:
         }
     }
 
-    auto execute(std::string_view query) -> std::expected<std::shared_ptr<Sql::ResultSet>, Sql::Error> override
+    auto execute(std::string_view query) -> std::expected<ResultSet, Sql::Error>
     {
         if (Cli::mysql_query(_handle, query.data()))
         {
@@ -51,11 +53,13 @@ public:
             return std::unexpected<Sql::Error> { Cli::mysql_error(_handle) };
         }
 
-        return std::make_shared<ResultSet>(handle);
+        return ResultSet { handle };
     }
 
 private:
     Cli::Handle _handle;
 };
+
+static_assert(Sql::Connection<Connection>);
 
 } // namespace Morpheus::MySql

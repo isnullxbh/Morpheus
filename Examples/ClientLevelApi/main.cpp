@@ -67,5 +67,5 @@ auto test(Morpheus::Sql::Client auto& client, std::string_view connection_str) -
     }
 
     auto result_set = std::move(try_execute).value();
-    std::cout << "Result set size: " << result_set->size() << std::endl;
+    std::cout << "Result set size: " << result_set.size() << std::endl;
 }
