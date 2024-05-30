@@ -4,8 +4,8 @@ An object-relational mapping tool for the C++ programming language
 
 ## Prerequisites
 
-- CMake 3.29 or higher (min.: Clang 18, GCC 14)
-- C++ compiler with `C++23` support
+- CMake 3.29 or higher
+- C++ compiler with `C++23` support (Clang >= 18, GCC >= 14)
 - Ninja
 
 **Optional:**
