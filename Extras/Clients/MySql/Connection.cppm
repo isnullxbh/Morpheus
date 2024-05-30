@@ -7,6 +7,8 @@
 export module Morpheus.MySql.Connection;
 
 export import Morpheus.Sql.Connection;
+
+import Std.Utility;
 import Morpheus.MySql.Cli;
 import Morpheus.MySql.ResultSet;
 
@@ -18,6 +20,12 @@ export class Connection : public Sql::Connection
 public:
     explicit Connection(Cli::Handle handle) noexcept
         : _handle(handle)
+    {}
+
+    Connection(const Connection&) = delete;
+
+    Connection(Connection&& rhs) noexcept
+        : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
     ~Connection() override

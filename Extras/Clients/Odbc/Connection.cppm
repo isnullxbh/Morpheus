@@ -6,6 +6,7 @@
 
 export module Morpheus.Odbc.Connection;
 
+import Std.Utility;
 import Morpheus.Sql.Connection;
 import Morpheus.Odbc.Cli;
 import Morpheus.Odbc.ResultSet;
@@ -19,6 +20,12 @@ export class Connection : public Sql::Connection
 public:
     explicit Connection(Cli::Handle handle)
         : _handle(handle)
+    {}
+
+    Connection(const Connection&) = delete;
+
+    Connection(Connection&& rhs) noexcept
+        : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
     ~Connection() override

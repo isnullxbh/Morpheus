@@ -4,14 +4,11 @@
  * @date    25.05.2024
  */
 
-module;
-
-#include <utility>
-
 export module Morpheus.PostgreSql.Connection;
 
 import Morpheus.Sql.Connection;
 
+import Std.Utility;
 import Morpheus.PostgreSql.Pq;
 export import Morpheus.PostgreSql.ResultSet;
 

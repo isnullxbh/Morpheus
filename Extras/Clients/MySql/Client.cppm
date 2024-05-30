@@ -7,16 +7,19 @@
 export module Morpheus.MySql.Client;
 
 export import Morpheus.Sql.Client;
+export import Morpheus.MySql.Connection;
+
 import Morpheus.MySql.Cli;
-import Morpheus.MySql.Connection;
 
 namespace Morpheus::MySql
 {
 
-export class Client : public Sql::Client
+export class Client
 {
 public:
-    auto connect(const Uri& uri) -> std::expected<std::shared_ptr<Sql::Connection>, Sql::Error> override
+    using Connection = MySql::Connection;
+
+    auto connect(const Uri& uri) -> std::expected<Connection, Sql::Error>
     {
         const auto handle = Cli::mysql_init(nullptr);
 
@@ -33,8 +36,10 @@ public:
             return std::unexpected<Sql::Error> { std::move(message) };
         }
 
-        return std::make_shared<Connection>(handle);
+        return Connection { handle };
     }
 };
+
+static_assert(Sql::Client<Client>);
 
 } // namespace Morpheus::MySql

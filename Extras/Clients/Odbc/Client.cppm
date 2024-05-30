@@ -6,24 +6,25 @@
 
 export module Morpheus.Odbc.Client;
 
-export import Std.Utility;
-
 export import Morpheus.Sql.Client;
+export import Morpheus.Odbc.Connection;
+
 import Morpheus.Odbc.Cli;
-import Morpheus.Odbc.Connection;
 import Morpheus.Odbc.Diagnostic;
 
 namespace Morpheus::Odbc
 {
 
-export class Client : public Sql::Client
+export class Client
 {
 public:
+    using Connection = Odbc::Connection;
+
     Client(Client&& rhs) noexcept
         : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
-    ~Client() override
+    ~Client()
     {
         if (_handle != nullptr)
         {
@@ -32,7 +33,7 @@ public:
         }
     }
 
-    auto connect(const Uri& uri) -> std::expected<std::shared_ptr<Sql::Connection>, Sql::Error> override
+    auto connect(const Uri& uri) -> std::expected<Connection, Sql::Error>
     {
         Cli::Handle handle {};
 
@@ -51,7 +52,7 @@ public:
             return std::unexpected { std::move(diagnostic).toError() };
         }
 
-        return std::make_shared<Connection>(handle);
+        return Connection { handle };
     }
 
     static auto create() noexcept -> std::expected<Client, Sql::Error>
@@ -85,5 +86,7 @@ private:
 
     Cli::Handle _handle;
 };
+
+static_assert(Sql::Client<Client>);
 
 } // namespace Morpheus::Odbc

@@ -8,6 +8,7 @@ export module Morpheus.SQLite.Connection;
 
 export import Morpheus.Sql.Connection;
 export import Morpheus.SQLite.ResultSet;
+import Std.Utility;
 import Morpheus.SQLite.Cli;
 
 namespace Morpheus::SQLite
@@ -18,6 +19,12 @@ export class Connection : public Sql::Connection
 public:
     explicit Connection(Cli::sqlite3* handle)
         : _handle(handle)
+    {}
+
+    Connection(const Connection&) = delete;
+
+    Connection(Connection&& rhs) noexcept
+        : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
     ~Connection() override

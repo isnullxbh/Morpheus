@@ -8,19 +8,20 @@ module;
 
 export module Morpheus.PostgreSql.Client;
 
-export import Morpheus.Base.Uri;
-import Morpheus.Sql.Client;
-
+export import Morpheus.Sql.Client;
 export import Morpheus.PostgreSql.Connection;
+
 import Morpheus.PostgreSql.Pq;
 
 namespace Morpheus::PostgreSql
 {
 
-export class Client : public Sql::Client
+export class Client
 {
 public:
-    auto connect(const Uri& uri) -> std::expected<std::shared_ptr<Sql::Connection>, Sql::Error> override
+    using Connection = PostgreSql::Connection;
+
+    auto connect(const Uri& uri) -> std::expected<Connection, Sql::Error>
     {
         auto* const handle = Pq::PQconnectdb(uri.str().data());
 
@@ -31,8 +32,10 @@ public:
             return std::unexpected<Sql::Error> { std::move(message) };
         }
 
-        return std::make_shared<Connection>(handle);
+        return Connection { handle };
     }
 };
+
+static_assert(Sql::Client<Client>);
 
 } // namespace Morpheus::PostgreSql

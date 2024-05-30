@@ -6,19 +6,21 @@
 
 export module Morpheus.SQLite.Client;
 
-import Std.Meta;
-
 export import Morpheus.Sql.Client;
-import Morpheus.SQLite.Cli;
 export import Morpheus.SQLite.Connection;
+
+import Std.Meta;
+import Morpheus.SQLite.Cli;
 
 namespace Morpheus::SQLite
 {
 
-export class Client : public Sql::Client
+export class Client
 {
 public:
-    auto connect(const Uri& uri) -> std::expected<std::shared_ptr<Sql::Connection>, Sql::Error> override
+    using Connection = SQLite::Connection;
+
+    auto connect(const Uri& uri) -> std::expected<Connection, Sql::Error>
     {
         Cli::sqlite3* handle {};
 
@@ -34,8 +36,10 @@ public:
             return std::unexpected<Sql::Error> { std::move(message) };
         }
 
-        return std::make_shared<Connection>(handle);
+        return Connection { handle };
     }
 };
+
+static_assert(Sql::Client<Client>);
 
 } // namespace Morpheus::SQLite

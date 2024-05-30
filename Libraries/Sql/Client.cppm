@@ -4,27 +4,22 @@
  * @date    25.05.2024
  */
 
-module;
-
-#include <expected>
-
 export module Morpheus.Sql.Client;
 
-export import Std.Memory;
 export import Std.Utility;
-
 export import Morpheus.Base.Uri;
-export import Morpheus.Sql.Connection;
 export import Morpheus.Sql.Error;
+
+import Std.Concepts;
 
 namespace Morpheus::Sql
 {
 
-export class Client
+export template<typename T>
+concept Client = requires(T& client, const Uri& uri)
 {
-public:
-    virtual ~Client() = default;
-    virtual auto connect(const Uri& uri) -> std::expected<std::shared_ptr<Connection>, Error> = 0;
+    typename T::Connection;
+    { client.connect(uri) } -> std::same_as<std::expected<typename T::Connection, Error>>;
 };
 
 } // namespace Morpheus::Sql

@@ -6,6 +6,7 @@
 
 export module Std;
 export import Std.Array;
+export import Std.Concepts;
 export import Std.Def;
 export import Std.Memory;
 export import Std.Meta;

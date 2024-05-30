@@ -11,7 +11,7 @@ import Morpheus.SQLite.Client;
 import Morpheus.Odbc.Client;
 import Morpheus.MySql;
 
-auto test(Morpheus::Sql::Client& client, std::string_view connection_str) -> void;
+auto test(Morpheus::Sql::Client auto& client, std::string_view connection_str) -> void;
 
 int main()
 {
@@ -46,7 +46,7 @@ int main()
     return 0;
 }
 
-auto test(Morpheus::Sql::Client& client, std::string_view connection_str) -> void
+auto test(Morpheus::Sql::Client auto& client, std::string_view connection_str) -> void
 {
     using Morpheus::Uri;
 
@@ -59,7 +59,7 @@ auto test(Morpheus::Sql::Client& client, std::string_view connection_str) -> voi
 
     auto connection = std::move(try_connect).value();
 
-    auto try_execute = connection->execute("SELECT * FROM user");
+    auto try_execute = connection.execute("SELECT * FROM user");
     if (!try_execute)
     {
         std::cerr << "An error occurred: " << try_execute.error().message() << std::endl;

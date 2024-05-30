@@ -14,5 +14,7 @@ export namespace std
 {
 
 using ::std::underlying_type_t;
+using ::std::remove_reference_t;
+using ::std::remove_cvref_t;
 
 } // namespace std
