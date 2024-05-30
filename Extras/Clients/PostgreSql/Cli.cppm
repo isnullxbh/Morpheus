@@ -1,5 +1,5 @@
 /**
- * @file    Pq.cppm
+ * @file    Cli.cppm
  * @author  Oleg E. Vorobiov <isnullxbh(at)gmail.com>
  * @date    25.05.2024
  */
@@ -8,9 +8,9 @@ module;
 
 #include <libpq-fe.h>
 
-export module Morpheus.PostgreSql.Pq;
+export module Morpheus.PostgreSql.Cli;
 
-export namespace Morpheus::PostgreSql::Pq
+export namespace Morpheus::PostgreSql::Cli
 {
 
 using ::pg_conn;
@@ -27,4 +27,4 @@ using ::PQresultErrorMessage;
 using ::PQclear;
 using ::PQntuples;
 
-} // namespace Morpheus::PostgreSql::Pq
+} // namespace Morpheus::PostgreSql::Cli

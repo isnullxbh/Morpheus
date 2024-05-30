@@ -10,7 +10,7 @@ export import Morpheus.Sql.Connection;
 export import Morpheus.PostgreSql.ResultSet;
 
 import Std.Utility;
-import Morpheus.PostgreSql.Pq;
+import Morpheus.PostgreSql.Cli;
 
 namespace Morpheus::PostgreSql
 {
@@ -20,7 +20,7 @@ export class Connection
 public:
     using ResultSet = PostgreSql::ResultSet;
 
-    explicit Connection(Pq::pg_conn* handle)
+    explicit Connection(Cli::pg_conn* handle)
         : _handle(handle)
     {}
 
@@ -34,7 +34,7 @@ public:
     {
         if (_handle)
         {
-            Pq::PQfinish(_handle);
+            Cli::PQfinish(_handle);
             _handle = nullptr;
         }
     }
@@ -44,14 +44,14 @@ public:
 
     auto execute(std::string_view query) -> std::expected<ResultSet, Sql::Error>
     {
-        const auto handle = Pq::PQexec(_handle, query.data());
-        const auto status = Pq::PQresultStatus(handle);
+        const auto handle = Cli::PQexec(_handle, query.data());
+        const auto status = Cli::PQresultStatus(handle);
 
-        if (status != Pq::ExecStatusType::PGRES_COMMAND_OK &&
-            status != Pq::ExecStatusType::PGRES_TUPLES_OK)
+        if (status != Cli::ExecStatusType::PGRES_COMMAND_OK &&
+            status != Cli::ExecStatusType::PGRES_TUPLES_OK)
         {
-            std::string message { Pq::PQresultErrorMessage(handle) };
-            Pq::PQclear(handle);
+            std::string message { Cli::PQresultErrorMessage(handle) };
+            Cli::PQclear(handle);
             return std::unexpected<Sql::Error> { std::move(message) };
         }
 
@@ -59,7 +59,7 @@ public:
     }
 
 private:
-    Pq::pg_conn* _handle;
+    Cli::pg_conn* _handle;
 };
 
 static_assert(Sql::Connection<Connection>);

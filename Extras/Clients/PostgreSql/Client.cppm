@@ -11,7 +11,7 @@ export module Morpheus.PostgreSql.Client;
 export import Morpheus.Sql.Client;
 export import Morpheus.PostgreSql.Connection;
 
-import Morpheus.PostgreSql.Pq;
+import Morpheus.PostgreSql.Cli;
 
 namespace Morpheus::PostgreSql
 {
@@ -23,12 +23,12 @@ public:
 
     auto connect(const Uri& uri) -> std::expected<Connection, Sql::Error>
     {
-        auto* const handle = Pq::PQconnectdb(uri.str().data());
+        auto* const handle = Cli::PQconnectdb(uri.str().data());
 
-        if (Pq::PQstatus(handle) != Pq::ConnStatusType::CONNECTION_OK)
+        if (Cli::PQstatus(handle) != Cli::ConnStatusType::CONNECTION_OK)
         {
-            std::string message { Pq::PQerrorMessage(handle) };
-            Pq::PQfinish(handle);
+            std::string message { Cli::PQerrorMessage(handle) };
+            Cli::PQfinish(handle);
             return std::unexpected<Sql::Error> { std::move(message) };
         }
 

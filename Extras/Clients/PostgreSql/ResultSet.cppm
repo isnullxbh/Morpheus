@@ -8,7 +8,7 @@ export module Morpheus.PostgreSql.ResultSet;
 
 import Std.Utility;
 export import Morpheus.Sql.ResultSet;
-import Morpheus.PostgreSql.Pq;
+import Morpheus.PostgreSql.Cli;
 
 namespace Morpheus::PostgreSql
 {
@@ -16,7 +16,7 @@ namespace Morpheus::PostgreSql
 export class ResultSet : public Sql::ResultSet
 {
 public:
-    explicit ResultSet(Pq::pg_result* handle) noexcept
+    explicit ResultSet(Cli::pg_result* handle) noexcept
         : _handle(handle)
     {}
 
@@ -30,18 +30,18 @@ public:
     {
         if (_handle != nullptr)
         {
-            Pq::PQclear(_handle);
+            Cli::PQclear(_handle);
             _handle = nullptr;
         }
     }
 
     auto size() const noexcept -> std::size_t override
     {
-        return static_cast<std::size_t>(Pq::PQntuples(_handle));
+        return static_cast<std::size_t>(Cli::PQntuples(_handle));
     }
 
 private:
-    Pq::pg_result* _handle;
+    Cli::pg_result* _handle;
 };
 
 } // namespace Morpheus::PostgreSql

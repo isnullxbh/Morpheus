@@ -22,7 +22,7 @@ target_sources(Morpheus.Clients.PostgreSql
                 ${CMAKE_CURRENT_SOURCE_DIR}/Client.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/Connection.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/PostgreSql.cppm
-                ${CMAKE_CURRENT_SOURCE_DIR}/Pq.cppm
+                ${CMAKE_CURRENT_SOURCE_DIR}/Cli.cppm
                 ${CMAKE_CURRENT_SOURCE_DIR}/ResultSet.cppm)
 
 target_link_directories(Morpheus.Clients.PostgreSql
