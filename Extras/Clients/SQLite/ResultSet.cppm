@@ -6,14 +6,15 @@
 
 export module Morpheus.SQLite.ResultSet;
 
-import Std.Utility;
 export import Morpheus.Sql.ResultSet;
+
+import Std.Utility;
 import Morpheus.SQLite.Cli;
 
 namespace Morpheus::SQLite
 {
 
-export class ResultSet : public Sql::ResultSet
+export class ResultSet
 {
 public:
     explicit ResultSet(Cli::sqlite3_stmt* handle)
@@ -26,7 +27,7 @@ public:
         : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
-    ~ResultSet() override
+    ~ResultSet()
     {
         if (_handle != nullptr)
         {
@@ -35,7 +36,7 @@ public:
         }
     }
 
-    auto size() const noexcept -> std::size_t override
+    auto size() const noexcept -> std::size_t
     {
         // TODO: it's very (!) bad solution
         std::size_t count {};
@@ -50,5 +51,7 @@ public:
 private:
     Cli::sqlite3_stmt* _handle;
 };
+
+static_assert(Sql::ResultSet<ResultSet>);
 
 } // namespace Morpheus::SQLite

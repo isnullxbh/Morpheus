@@ -6,14 +6,15 @@
 
 export module Morpheus.Odbc.ResultSet;
 
+export import Morpheus.Sql.ResultSet;
+
 import Std.Utility;
-import Morpheus.Sql.ResultSet;
 import Morpheus.Odbc.Cli;
 
 namespace Morpheus::Odbc
 {
 
-export class ResultSet : public Sql::ResultSet
+export class ResultSet
 {
 public:
     explicit ResultSet(Cli::Handle handle)
@@ -26,7 +27,7 @@ public:
         : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
-    ~ResultSet() override
+    ~ResultSet()
     {
         if (_handle != nullptr)
         {
@@ -35,7 +36,7 @@ public:
         }
     }
 
-    auto size() const noexcept -> std::size_t override
+    auto size() const noexcept -> std::size_t
     {
         // TODO
         return 0;
@@ -44,5 +45,7 @@ public:
 private:
     Cli::Handle _handle;
 };
+
+static_assert(Sql::ResultSet<ResultSet>);
 
 } // namespace Morpheus::Odbc

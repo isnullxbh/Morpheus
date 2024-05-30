@@ -7,15 +7,15 @@
 export module Morpheus.Sql.ResultSet;
 
 export import Std.Def;
+import Std.Concepts;
 
 namespace Morpheus::Sql
 {
 
-export class ResultSet
+export template<typename T>
+concept ResultSet = requires(T& set)
 {
-public:
-    virtual ~ResultSet() = default;
-    virtual auto size() const noexcept -> std::size_t = 0;
+    { set.size() } -> std::same_as<std::size_t>;
 };
 
 } // namespace Morpheus::Sql

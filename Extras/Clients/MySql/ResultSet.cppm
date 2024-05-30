@@ -14,7 +14,7 @@ import Morpheus.MySql.Cli;
 namespace Morpheus::MySql
 {
 
-export class ResultSet : public Sql::ResultSet
+export class ResultSet
 {
 public:
     explicit ResultSet(Cli::ResultHandle handle)
@@ -27,7 +27,7 @@ public:
         : _handle(std::exchange(rhs._handle, nullptr))
     {}
 
-    ~ResultSet() override
+    ~ResultSet()
     {
         if (_handle != nullptr)
         {
@@ -36,7 +36,7 @@ public:
         }
     }
 
-    auto size() const noexcept -> std::size_t override
+    auto size() const noexcept -> std::size_t
     {
         return static_cast<std::size_t>(Cli::mysql_num_rows(_handle));
     }
@@ -44,5 +44,7 @@ public:
 private:
     Cli::ResultHandle _handle;
 };
+
+static_assert(Sql::ResultSet<ResultSet>);
 
 } // namespace Morpheus::MySql
