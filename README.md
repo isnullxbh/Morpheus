@@ -2,6 +2,9 @@
 
 An object-relational mapping tool for the C++ programming language
 
+![status](https://badgen.net/static/status/poc/yellow)
+![status](https://badgen.net/static/c++/23/green)
+
 ## Prerequisites
 
 - CMake 3.29 or higher
