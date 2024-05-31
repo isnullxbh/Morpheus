@@ -14,6 +14,35 @@ import Morpheus.MySql.Cli;
 namespace Morpheus::MySql
 {
 
+export class Fetcher
+{
+public:
+    explicit Fetcher(Cli::ResultHandle handle)
+        : _handle(handle)
+    {}
+
+    auto fetch() -> bool
+    {
+        if (!_record)
+        {
+            return false;
+        }
+
+        _record = Cli::mysql_fetch_row(_handle);
+
+        return _record != nullptr;
+    }
+
+    auto getColumnData(std::size_t index) const -> const char*
+    {
+        return _record[index];
+    }
+
+private:
+    Cli::ResultHandle _handle;
+    Cli::Record       _record;
+};
+
 export class ResultSet
 {
 public:
@@ -39,6 +68,11 @@ public:
     auto size() const noexcept -> std::size_t
     {
         return static_cast<std::size_t>(Cli::mysql_num_rows(_handle));
+    }
+
+    auto createFetcher() const noexcept -> Fetcher
+    {
+        return Fetcher { _handle };
     }
 
 private:

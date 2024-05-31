@@ -5,6 +5,7 @@
  */
 
 #include <iostream>
+#include <type_traits>
 
 import Morpheus.PostgreSql.Client;
 import Morpheus.SQLite.Client;
@@ -59,7 +60,12 @@ auto test(Morpheus::Sql::Client auto& client, std::string_view connection_str) -
 
     auto connection = std::move(try_connect).value();
 
-    auto try_execute = connection.execute("SELECT * FROM user");
+    constexpr std::string query =
+        std::is_same_v<Morpheus::MySql::Client, std::remove_cvref_t<decltype(client)>>
+            ? "SELECT * FROM user"
+            : "SELECT * FROM \"user\"";
+
+    auto try_execute = connection.execute(query);
     if (!try_execute)
     {
         std::cerr << "An error occurred: " << try_execute.error().message() << std::endl;
@@ -68,4 +74,14 @@ auto test(Morpheus::Sql::Client auto& client, std::string_view connection_str) -
 
     auto result_set = std::move(try_execute).value();
     std::cout << "Result set size: " << result_set.size() << std::endl;
+
+    auto fetcher = result_set.createFetcher();
+    while (fetcher.fetch())
+    {
+        for (std::size_t i = 0; i < 4; ++i)
+        {
+            std::cout << fetcher.getColumnData(i) << ' ';
+        }
+        std::cout << std::endl;
+    }
 }

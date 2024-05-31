@@ -13,6 +13,8 @@ export module Morpheus.PostgreSql.Cli;
 export namespace Morpheus::PostgreSql::Cli
 {
 
+using ResultHandle = ::pg_result*;
+
 using ::pg_conn;
 using ::pg_result;
 using ::ConnStatusType;
@@ -26,5 +28,6 @@ using ::PQresultStatus;
 using ::PQresultErrorMessage;
 using ::PQclear;
 using ::PQntuples;
+using ::PQgetvalue;
 
 } // namespace Morpheus::PostgreSql::Cli

@@ -16,6 +16,12 @@ export namespace Morpheus::Odbc::Cli
 using Char = SQLCHAR;
 using Handle = SQLHANDLE;
 using Pointer = SQLPOINTER;
+using USmallInt = ::SQLUSMALLINT;
+
+enum class DataType : decltype(SQL_C_CHAR)
+{
+    Char = SQL_C_CHAR,
+};
 
 using ::SQLAllocHandle;
 using ::SQLFreeHandle;
@@ -25,6 +31,8 @@ using ::SQLExecDirect;
 using ::SQLConnect;
 using ::SQLDisconnect;
 using ::SQLDriverConnect;
+using ::SQLFetch;
+using ::SQLGetData;
 
 enum EnvironmentAttribute : decltype(SQL_ATTR_ODBC_VERSION)
 {
@@ -42,7 +50,8 @@ enum StatusCode : decltype(SQL_SUCCESS)
     Ok = SQL_SUCCESS,
     OkWithInfo = SQL_SUCCESS_WITH_INFO,
     InvalidHandle = SQL_INVALID_HANDLE,
-    Error = SQL_ERROR
+    Error = SQL_ERROR,
+    NoData = SQL_NO_DATA
 };
 
 enum HandleType : decltype(SQL_HANDLE_ENV)

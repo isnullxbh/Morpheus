@@ -15,6 +15,7 @@ export namespace Morpheus::MySql::Cli
 
 using Handle = ::MYSQL*;
 using ResultHandle = ::MYSQL_RES*;
+using Record = ::MYSQL_ROW;
 
 using ::mysql_init;
 using ::mysql_real_connect;
@@ -24,5 +25,6 @@ using ::mysql_query;
 using ::mysql_store_result;
 using ::mysql_free_result;
 using ::mysql_num_rows;
+using ::mysql_fetch_row;
 
 } // namespace Morpheus::MySql::Cli

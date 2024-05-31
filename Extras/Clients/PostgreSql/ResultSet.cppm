@@ -14,6 +14,37 @@ import Morpheus.PostgreSql.Cli;
 namespace Morpheus::PostgreSql
 {
 
+export class Fetcher
+{
+public:
+    explicit Fetcher(Cli::ResultHandle handle)
+        : _handle(handle)
+        , _size(static_cast<std::size_t>(Cli::PQntuples(_handle)))
+    {}
+
+    auto fetch() -> bool
+    {
+        if ((_record_index + 1) == _size)
+        {
+            return false;
+        }
+
+        ++_record_index;
+        return true;
+    }
+
+    auto getColumnData(std::size_t index) const -> const char*
+    {
+        return Cli::PQgetvalue(_handle, static_cast<int>(_record_index), static_cast<int>(index));
+    }
+
+private:
+    Cli::ResultHandle _handle;
+    std::size_t       _record_index { static_cast<std::size_t>(-1) };
+    std::size_t       _size;
+};
+
+
 export class ResultSet
 {
 public:
@@ -39,6 +70,11 @@ public:
     auto size() const noexcept -> std::size_t
     {
         return static_cast<std::size_t>(Cli::PQntuples(_handle));
+    }
+
+    auto createFetcher() const noexcept -> Fetcher
+    {
+        return Fetcher { _handle };
     }
 
 private:
