@@ -1,2 +1,4 @@
 add_subdirectory(Base)
+add_subdirectory(Mapping)
+add_subdirectory(Queries)
 add_subdirectory(Sql)
