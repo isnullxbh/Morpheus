@@ -6,6 +6,7 @@ Checks: >
   performance-*,portability-*,
   readability-*,
   -readability-convert-member-functions-to-static,
+  -readability-identifier-length,
   clang-diagnostic-*
 WarningsAsErrors: ''
 HeaderFileExtensions: [h, hpp, cppm]

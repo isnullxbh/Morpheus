@@ -10,6 +10,7 @@ An object-relational mapping tool for the C++ programming language
 - CMake 3.29 or higher
 - C++ compiler with `C++23` support (Clang >= 18, GCC >= 14)
 - Ninja
+- [LibTooling](https://clang.llvm.org/docs/LibTooling.html) (to extract metadata from C++ code)
 
 **Optional:**
 

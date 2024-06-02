@@ -20,5 +20,6 @@ using ::std::remove_cvref_t;
 using ::std::is_same_v;
 using ::std::true_type;
 using ::std::false_type;
+using ::std::is_base_of_v;
 
 } // namespace std
